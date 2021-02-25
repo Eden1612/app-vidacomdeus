@@ -1,0 +1,1 @@
+Aplicativo para geração de versículos da Bíblia.
