@@ -42,11 +42,15 @@ const HomeScreen = () => {
     //Função que adiciona versículo aos favoritos
     const favoriteAdd = async () => {
         const id = Math.random(50000).toString();
-        const data = {
+
+        let dataRes = await AsyncStorage.getItem('@addfavorito');
+        dataRes = await JSON.parse(dataRes);
+
+        const data = [...dataRes, {
             referencia: titleVerse,
             verso: verse,
             id
-        }
+        }];
 
         await AsyncStorage.setItem('@addfavorito', JSON.stringify(data));
 
