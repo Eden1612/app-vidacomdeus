@@ -13,9 +13,15 @@ const HomeScreen = () => {
     const [titleVerse, setTitleVerse] = useState();
     const [verse, setVerse] = useState();
     const [ShowNote, SetShowNote] = useState(false);
+    const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
-        
+        AsyncStorage.getItem('@addfavorito').then(data=> {
+            const favorito = JSON.parse(data);
+            
+            setFavorites([favorito]);
+            NewVerse()
+        })
     }, []);
 
     //apenas para armazenar informaçoes de título e versículo para uso em outras funções
@@ -43,18 +49,16 @@ const HomeScreen = () => {
     const favoriteAdd = async () => {
         const id = Math.random(50000).toString();
 
-        let dataRes = await AsyncStorage.getItem('@addfavorito');
-        dataRes = await JSON.parse(dataRes);
-
-        const data = [...dataRes, {
+        const data = {
             referencia: titleVerse,
             verso: verse,
             id
-        }];
+        };
 
-        await AsyncStorage.setItem('@addfavorito', JSON.stringify(data));
+        favorites.push(data)
+        await AsyncStorage.setItem('@addfavorito', JSON.stringify(favorites));
 
-        console.log(data);
+        console.log(favorites);
     }
 
     //função que exibe o campo de notas.
@@ -71,6 +75,7 @@ const HomeScreen = () => {
 
     return(
         <SafeAreaView style={StylesHomeScreen.container}>
+            <StatusBar barStyle={'light-content'}/>
             <LinearGradient 
                 colors={['#960487', '#06C2F2']}
                 start={{x:0, y:0}}

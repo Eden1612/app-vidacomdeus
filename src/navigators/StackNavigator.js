@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from '../screens/Home';
 import FormNotes from '../screens/FormNotes';
+import FavoriteScreen from '../screens/FavoriteScreen';
 
 
 const StackNavigator = createStackNavigator();
