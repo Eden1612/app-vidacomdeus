@@ -1,11 +1,13 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState, useLayoutEffect }  from 'react';
 import { SafeAreaView, FlatList, Text, View, StyleSheet, TouchableOpacity, Image, ScrollView, Share } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-import FavoriteList from '../components/FavoritesList';
 import StylesFavoriteScreen from '../styles/StylesFavoriteScreen';
 
 const FavoriteScreen = () => {
+    const navigation = useNavigation();
+
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
@@ -13,29 +15,35 @@ const FavoriteScreen = () => {
             const favorito = JSON.parse(data);
             setFavorites(favorito);
         })
-
-        console.log(favorites);
     }, []);
 
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerLeft:()=> 
+                <TouchableOpacity onPress={goHome}> 
+                    <Image style={StylesFavoriteScreen.imagHeader} source={require('../images/reply.png')}/>
+                </TouchableOpacity>
+        });
+    }, []);
+
+    const goHome = () => navigation.navigate('Home');
+    
+
     const deleteFavorite = async (favoriteId) => {
-        const newFavorite = favorites.filter(item => item.id !== favoriteId);
-        await AsyncStorage.setItem('@addfavorito', JSON.stringify(newFavorite));
         
-        setFavorites(newFavorite);
     }
 
-    const shareVerso = async () => {
-       
+    const shareVerso = async (favoriteId) => {
+     
     }
+
 
     return(
         <SafeAreaView>
-            <View style={StylesFavoriteScreen.header}> 
-                <Text style={StylesFavoriteScreen.titleHeader}>FAVORITOS</Text>
-            </View>
             <FlatList 
+                style={StylesFavoriteScreen.flatlist}
                 data={favorites}
-                keyExtractor={(item) => item.id}
+                keyExtractor={item => item.id}
                 renderItem={({item}) => (
                     <View style={StylesFavoriteScreen.container}>
                     <View style={StylesFavoriteScreen.box}>
@@ -57,6 +65,9 @@ const FavoriteScreen = () => {
                 </View>
                 )}
             />
+            <View style={StylesFavoriteScreen.areaAds}>
+                <Text>Aqui vem o anuncio</Text>
+            </View>
         </SafeAreaView>
     );
 }

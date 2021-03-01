@@ -28,6 +28,7 @@ export default () => {
         }}>
             <StackNavigator.Screen name='Home' component={Home}/>
             <StackNavigator.Screen name='FormNotes' component={FormNotes}/>
+            <StackNavigator.Screen name='FavoriteScreen' component={FavoriteScreen}/>
         </StackNavigator.Navigator>
     );
 }

@@ -6,10 +6,9 @@ const StylesFavoriteScreen = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
     },
-    titleHeader:{
-        fontSize:22,
-        fontWeight:'bold',
-        color:'#020123'
+    flatlist:{
+        marginTop:20,
+        height:'89%'
     },
     container:{
         flex:1,
@@ -58,6 +57,15 @@ const StylesFavoriteScreen = StyleSheet.create({
     image:{
         width:15,
         height:15,
+        alignSelf:'center'
+    },
+    imagHeader:{
+        width:30,
+        height:30,
+        marginLeft:15
+    },
+    areaAds:{
+       
     }
 });
 

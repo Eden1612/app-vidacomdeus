@@ -6,7 +6,7 @@ import DrawerNavigator from './src/navigators/DrawerNavigator';
 const App = () => {
   return(
     <NavigationContainer>
-      <DrawerNavigator />
+      <StackNavigator />
     </NavigationContainer>
   );
 }

@@ -115,8 +115,9 @@ const StylesHomeScreen = StyleSheet.create({
         alignSelf:'center'
     },
     imagHeader:{
-        width:40,
-        height:40
+        width:30,
+        height:30,
+        marginRight:15
     }
 });
 
