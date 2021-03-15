@@ -2,12 +2,12 @@ import React, { useEffect, useState, useLayoutEffect }  from 'react';
 import { SafeAreaView, FlatList, Text, View, StyleSheet, TouchableOpacity, Image, ScrollView, Share } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { AdMobBanner, setTestDeviceIDAsync } from 'react-native-admob';
 
 import StylesFavoriteScreen from '../styles/StylesFavoriteScreen';
 
 const FavoriteScreen = () => {
     const navigation = useNavigation();
-
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
@@ -28,15 +28,24 @@ const FavoriteScreen = () => {
 
     const goHome = () => navigation.navigate('Home');
     
-
+    //função que deleta o favorito
     const deleteFavorite = async (favoriteId) => {
-        
+        const newFavorite = favorites.filter(item => item.id !== favoriteId);
+        await AsyncStorage.setItem('@addfavorito', JSON.stringify(newFavorite));
+
+        setFavorites(newFavorite);
     }
 
+    //função que compartilha o texto favorito
     const shareVerso = async (favoriteId) => {
-     
-    }
+        const shareVerso = favorites.filter(item => item.id === favoriteId);
+        const referencia = shareVerso[0].referencia;
+        const verso = shareVerso[0].verso;
 
+        await Share.share({
+            message:referencia + ' - ' + verso
+        });
+    }
 
     return(
         <SafeAreaView>
@@ -50,10 +59,10 @@ const FavoriteScreen = () => {
                         <View style={StylesFavoriteScreen.areaTitle}>
                             <Text style={StylesFavoriteScreen.title}>{item.referencia}</Text>
                             <View style={StylesFavoriteScreen.areaButtons}>
-                                <TouchableOpacity style={StylesFavoriteScreen.button} onPress={shareVerso}>
+                                <TouchableOpacity style={StylesFavoriteScreen.button} onPress={()=>shareVerso(item.id)}>
                                     <Image style={StylesFavoriteScreen.image} source={require('../images/share.png')}/>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={StylesFavoriteScreen.button} onPress={deleteFavorite}>
+                                <TouchableOpacity style={StylesFavoriteScreen.button} onPress={()=>deleteFavorite(item.id)}>
                                     <Image style={StylesFavoriteScreen.image} source={require('../images/delete.png')}/>
                                 </TouchableOpacity>
                             </View>
@@ -66,7 +75,12 @@ const FavoriteScreen = () => {
                 )}
             />
             <View style={StylesFavoriteScreen.areaAds}>
-                <Text>Aqui vem o anuncio</Text>
+            <AdMobBanner
+                    adSize="fullBanner"
+                    adUnitID="ca-app-pub-3940256099942544/6300978111"
+                    testDevices={[AdMobBanner.simulatorId]}
+                    onAdFailedToLoad={erro=>console.erro(erro)} 
+                />
             </View>
         </SafeAreaView>
     );

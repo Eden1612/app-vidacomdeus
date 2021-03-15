@@ -5,6 +5,9 @@ const StylesHomeScreen = StyleSheet.create({
         flex:1,
         backgroundColor:'#020123'
     },
+    areaContent:{
+        flex:1
+    },
     areaVersus:{
         alignSelf:'center',
         alignItems:'center',
@@ -118,6 +121,12 @@ const StylesHomeScreen = StyleSheet.create({
         width:30,
         height:30,
         marginRight:15
+    },
+    areaAds:{
+        flexDirection:'row',
+        justifyContent:'flex-end',
+        alignItems:'flex-end',
+        alignSelf:'baseline'
     }
 });
 
